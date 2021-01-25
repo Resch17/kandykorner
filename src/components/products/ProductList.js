@@ -1,13 +1,15 @@
 import React, { useContext, useEffect } from 'react';
 import { ProductContext } from './ProductProvider';
+import { ProductTypeContext } from '../productTypes/ProductTypeProvider';
 import { Product } from './Product';
 import './Product.css';
 
 export const ProductList = () => {
   const { products, getProducts } = useContext(ProductContext);
+  const { productTypes, getProductTypes } = useContext(ProductTypeContext);
 
   useEffect(() => {
-    getProducts();
+    getProductTypes().then(getProducts);
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
@@ -17,7 +19,8 @@ export const ProductList = () => {
         {products
           .sort((a, b) => a.name.localeCompare(b.name))
           .map((p) => {
-            return <Product key={p.id} product={p} />;
+            const category = productTypes.find((c) => c.id === p.productTypeId);
+            return <Product key={p.id} product={p} category={category} />;
           })}
       </div>
     </>
