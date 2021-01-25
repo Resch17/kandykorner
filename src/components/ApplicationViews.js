@@ -5,6 +5,8 @@ import { LocationList } from './locations/LocationList';
 import { ProductProvider } from './products/ProductProvider';
 import { ProductList } from './products/ProductList';
 import { ProductTypeProvider } from './productTypes/ProductTypeProvider';
+import { EmployeeProvider } from './employees/EmployeeProvider';
+import { EmployeeList } from './employees/EmployeeList';
 
 export const ApplicationViews = () => {
   return (
@@ -17,7 +19,7 @@ export const ApplicationViews = () => {
           <LocationList />
         </Route>
       </LocationProvider>
-      
+
       <ProductTypeProvider>
         <ProductProvider>
           <Route exact path="/products">
@@ -25,6 +27,14 @@ export const ApplicationViews = () => {
           </Route>
         </ProductProvider>
       </ProductTypeProvider>
+
+      <LocationProvider>
+        <EmployeeProvider>
+          <Route exact path="/employees">
+            <EmployeeList />
+          </Route>
+        </EmployeeProvider>
+      </LocationProvider>
     </>
   );
 };
