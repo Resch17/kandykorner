@@ -25,6 +25,11 @@ export const Navbar = (props) => {
         </Link>
       </li>
       <li className="navbar__item">
+        <Link className="navbar__link" to="/order">
+          My Order
+        </Link>
+      </li>
+      <li className="navbar__item">
         <Link className="navbar__link" to="/">
           <button className="logout-button" onClick={logout}>
             Log Out
