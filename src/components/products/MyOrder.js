@@ -14,18 +14,23 @@ export const MyOrder = () => {
     getProducts().then(getCustomerCandy);
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
+
+  // get all CustomerCandy relationships for this user
   const userPurchases = customerCandy.filter(
     (rel) => rel.customerId === userId
   );
 
+  // make an array of each unique product purchased (Set prevents duplicate values)
   const uniqueProducts = Array.from([
     ...new Set(userPurchases.map((up) => up.productId)),
   ]);
 
+  // for each unique product, find all the instances (relationships) of this user purchasing it
   const purchaseHistory = uniqueProducts.map((up) =>
     userPurchases.filter((product) => product.productId === up)
   );
 
+  // match up each relationship of unique products, get the name of the product from its Id and the number purchased of each and return a table row (OrderItem)
   const purchaseReadout = purchaseHistory.map((purchase) => {
     const product = products.find((p) => p.id === purchase[0].productId);
     const quantity = purchase.length;
@@ -34,10 +39,12 @@ export const MyOrder = () => {
     );
   });
 
+  // make an array of all the products purchased by this user (including duplicates)
   const userProducts = userPurchases.map((up) => {
     return products.find((p) => p.id === up.productId);
   });
 
+  // find the sum of all products purchased by this user
   const orderTotal = userProducts.reduce((a, b) => {
     return a + b.price;
   }, 0);

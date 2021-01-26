@@ -9,7 +9,9 @@ import { EmployeeProvider } from './employees/EmployeeProvider';
 import { EmployeeList } from './employees/EmployeeList';
 import { EmployeeForm } from './employees/EmployeeForm';
 import { CustomerCandyProvider } from './products/CustomerCandyProvider';
-import { MyOrder } from "./products/MyOrder";
+import { MyOrder } from './products/MyOrder';
+import { CustomerProvider } from './customers/CustomerProvider';
+import { CustomerList } from './customers/CustomerList';
 
 export const ApplicationViews = () => {
   return (
@@ -46,6 +48,14 @@ export const ApplicationViews = () => {
           </Route>
         </EmployeeProvider>
       </LocationProvider>
+
+      <CustomerCandyProvider>
+        <CustomerProvider>
+          <Route exact path="/customers">
+            <CustomerList />
+          </Route>
+        </CustomerProvider>
+      </CustomerCandyProvider>
     </>
   );
 };
