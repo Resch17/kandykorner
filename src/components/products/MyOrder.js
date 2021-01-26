@@ -1,7 +1,8 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { CustomerCandyContext } from './CustomerCandyProvider';
 import { ProductContext } from './ProductProvider';
 import { OrderItem } from './OrderItem';
+import './Order.css';
 
 export const MyOrder = () => {
   const { customerCandy, getCustomerCandy } = useContext(CustomerCandyContext);
@@ -9,27 +10,59 @@ export const MyOrder = () => {
 
   const userId = parseInt(localStorage.getItem('kandy_customer'));
 
-  const [yourOrders, setYourOrders] = useState([]);
-
   useEffect(() => {
-    getProducts()
-      .then(getCustomerCandy)
-      .then(() => {
-        const customerOrders = customerCandy.filter(
-          (rel) => rel.customerId === userId
-        );
-        setYourOrders(customerOrders);
-      });
+    getProducts().then(getCustomerCandy);
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
+
+  const userPurchases = customerCandy.filter(
+    (rel) => rel.customerId === userId
+  );
+
+  const uniqueProducts = Array.from([
+    ...new Set(userPurchases.map((up) => up.productId)),
+  ]);
+
+  const purchaseHistory = uniqueProducts.map((up) =>
+    userPurchases.filter((product) => product.productId === up)
+  );
+
+  const purchaseReadout = purchaseHistory.map((purchase) => {
+    const product = products.find((p) => p.id === purchase[0].productId);
+    const quantity = purchase.length;
+    return (
+      <OrderItem key={purchase[0].id} product={product} quantity={quantity} />
+    );
+  });
+
+  const userProducts = userPurchases.map((up) => {
+    return products.find((p) => p.id === up.productId);
+  });
+
+  const orderTotal = userProducts.reduce((a, b) => {
+    return a + b.price;
+  }, 0);
 
   return (
     <>
       <h2>My Order</h2>
       <div className="orders">
-        {yourOrders.map((rel) => {
-          const product = products.find((p) => p.id === rel.productId);
-          return <OrderItem key={rel.id} product={product} />;
-        })}
+        <table className="orderTable">
+          <thead>
+            <tr>
+              <th>Product Name</th>
+              <th>Price per item</th>
+              <th>Quantity</th>
+              <th>Cost</th>
+            </tr>
+          </thead>
+          <tbody>{purchaseReadout}</tbody>
+          <tfoot>
+            <tr>
+              <td colSpan="3"><b>Total purchase price:</b></td>
+              <td>${orderTotal.toFixed(2)}</td>
+            </tr>
+          </tfoot>
+        </table>
       </div>
     </>
   );

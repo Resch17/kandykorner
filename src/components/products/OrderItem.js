@@ -1,15 +1,13 @@
 import React from 'react';
+import './Order.css'
 
-export const OrderItem = ({ product }) => {
+export const OrderItem = ({ product, quantity }) => {
   return (
-    <section className="order-item">
-      <h4 className="order-item__name">Product: {product.name}</h4>
-      <div className="order-item__category">
-        Category: {product.productType.name}
-      </div>
-      <div className="order-item__price">
-        Price: ${product.price.toFixed(2)}
-      </div>
-    </section>
+    <tr className="order-item">
+      <td className="order-item__name">{product.name}</td>
+      <td className="order-item__price">${product.price.toFixed(2)}</td>
+      <td className="order-item__quantity">{quantity}</td>
+      <td className="order-item__total">${(quantity * product.price).toFixed(2)}</td>
+    </tr>
   );
 };
