@@ -42,7 +42,7 @@ export const Login = (props) => {
 
       <section>
         <form className="form--login" onSubmit={handleLogin}>
-          <h1>Kandy Corner</h1>
+          <h1>Kandy Korner</h1>
           <h2>Please sign in</h2>
           <fieldset>
             <label htmlFor="inputEmail"> Email address </label>
